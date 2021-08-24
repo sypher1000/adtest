@@ -1,0 +1,52 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <h2>Scraper</h2>
+    <div>
+        <div>URL:
+            <input type="text" id=textInput>
+            <div>
+                <input type="checkbox" id=usChecked>
+                <label>Run from US</label>
+            </div><div>
+                <input type="checkbox" id=autoParse>
+                <label>Auto parse(Support: Amazon, Google Search and Google Shopping.)</label>
+            </div>
+            <button type="button" onclick="httpGet()">
+                Get</button>
+        </div>
+        <div>
+            <textarea rows="50" cols="120" id="demo"></textarea>
+        </div>
+        <button type="button" onclick="httpGet()">
+            Save to db</button>
+    </div>
+</body>
+
+</html>
+<script>
+    function httpGet() {
+        runFromUs = document.getElementById("usChecked").checked;
+        autoParse = document.getElementById("autoParse").checked;
+        theSite = document.getElementById("textInput").value;
+        theUrl = 'http://api.scraperapi.com?api_key=38d9e2577cce99b0d798587c3c6e379b&url=' + theSite;
+        if (runFromUs == true) {
+            theUrl.concat("&country_code=us");
+        }
+        if (autoParse == true) {
+            theUrl.concat("&autoparse=true");
+        }
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", theUrl, false); // false for synchronous request
+        xmlHttp.send(null);
+        document.getElementById("demo").value = "";
+        document.getElementById("demo").value = xmlHttp.responseText;
+        return xmlHttp.responseText;
+    }
+
+
+</script>
